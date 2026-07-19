@@ -1,0 +1,10 @@
+# Runtime-generated data - keep the repo clean, sample data stays
+Data/ad_store.json
+Logs/*.log
+Reports/*.csv
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
