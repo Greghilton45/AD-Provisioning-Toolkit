@@ -55,7 +55,13 @@ if ($CsvPath) {
     if (-not (Test-Path $CsvPath)) { throw "CSV file not found: $CsvPath" }
     $targets = (Import-Csv -Path $CsvPath).SamAccountName
 } elseif ($SamAccountNames) {
-    $targets = $SamAccountNames
+    # Accept comma-separated, space-separated, or a mix — handles the case
+    # where this is invoked from an external shell (bash/zsh) that passes
+    # "-SamAccountNames anguyen,bcoleman" as a single literal string.
+    $targets = $SamAccountNames |
+        ForEach-Object { $_ -split ',' } |
+        ForEach-Object { $_.Trim() } |
+        Where-Object { $_ -ne '' }
 } else {
     throw "Provide either -SamAccountNames or -CsvPath."
 }
